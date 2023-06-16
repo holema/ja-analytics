@@ -17,7 +17,7 @@ services:
   application:
     build: .
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}!@ja-analytics-db:5432/app?serverVersion=${POSTGRES_VERSION:-15}&charset=utf8"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@ja-analytics-db:5432/app?serverVersion=${POSTGRES_VERSION:-15}&charset=utf8"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.analytics.tls=true"
