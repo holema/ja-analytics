@@ -14,7 +14,7 @@ services:
       - default
       - jitsi-admin
   application:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    build: .
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}!@127.0.0.1:5432/app?serverVersion=${POSTGRES_VERSION:-15}&charset=utf8"
     labels:
