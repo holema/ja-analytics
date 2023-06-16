@@ -6,8 +6,8 @@ ENV TZ=Europe/Berlin
 USER root
 RUN usermod -a -G www-data docker
 #Do npm install
-COPY package.json /var/www/html
-COPY package-lock.json /var/www/html
+COPY composer.json /var/www/html
+COPY composer.lock /var/www/html
 
 USER docker
 RUN composer install
