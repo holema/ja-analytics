@@ -3,21 +3,27 @@ version: '3.8'
 services:
 ###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    image: mariadb:latest
     hostname: ja-analytics-db
+    healthcheck:
+      test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
+      timeout: 20s
+      retries: 10
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      MARIADB_ROOT_PASSWORD: test
+      MARIADB_DATABASE: ${MARIADB_DB:-app}
+      MARIADB_USER: ${MARIADB_USER:-app}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-!ChangeMe!}
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/lib/mysql
     networks:
-      - default
       - jitsi-admin
+
+
   application:
     build: .
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@ja-analytics-db:5432/app?serverVersion=${POSTGRES_VERSION:-15}&charset=utf8"
+      DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@ja-analytics-db:3306/${MARIADB_DB:-app}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.analytics.tls=true"
