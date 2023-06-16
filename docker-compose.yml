@@ -32,7 +32,6 @@ services:
       - jitsi-admin
 
 
-
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
