@@ -8,7 +8,7 @@ RUN usermod -a -G www-data docker
 #Do npm install
 COPY composer.json /var/www/html
 COPY composer.lock /var/www/html
-
+COPY . /var/www/html
 USER docker
 RUN composer install
 USER root
