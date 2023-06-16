@@ -26,6 +26,7 @@ services:
       database:
         condition: service_healthy
     environment:
+      APACHE_DOCUMENT_ROOT: "public/"
       DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@ja-analytics-db:3306/${MARIADB_DB:-app}
     labels:
       - "traefik.enable=true"
