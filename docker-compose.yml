@@ -28,6 +28,10 @@ services:
     environment:
       APACHE_DOCUMENT_ROOT: "/var/www/html/public/"
       DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@ja-analytics-db:3306/${MARIADB_DB:-app}
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+      APP_DEBUG: 0
+      APP_ENV: prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.analytics.tls=true"
