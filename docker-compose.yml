@@ -22,6 +22,9 @@ services:
 
   application:
     build: .
+    depends_on:
+      database:
+        condition: service_healthy
     environment:
       DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@ja-analytics-db:3306/${MARIADB_DB:-app}
     labels:
