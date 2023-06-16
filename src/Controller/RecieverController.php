@@ -26,7 +26,6 @@ class RecieverController extends AbstractController
     public function index(Request $request): Response
     {
         $data = $request->get('data');
-        dump($data);
         $dataEncodedd = json_decode($data,true);
         $ip = $request->getClientIp();
         $lastData = $this->analyticsDataRepository->findDataFromIPFromLastHour($ip);
