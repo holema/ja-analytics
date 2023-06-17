@@ -39,7 +39,10 @@ class AnalyticsData
 
         return $this;
     }
-
+    public function getDataAsArray(): array
+    {
+       return json_decode($this->data,true);
+    }
     public function getIp(): ?string
     {
         return $this->ip;

@@ -1,39 +1,33 @@
+imports:
+    # Import Keycloak security providers
+    - { resource: '@IDCIKeycloakSecurityBundle/Resources/config/security.yaml' }
+
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
-    providers:
-        users_in_memory: { memory: null }
+
+    enable_authenticator_manager: true
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+
+        # This route create the OAuth 2 "User Authorization Request" and must be accessible for unauthenticated users
+        auth_connect:
+            pattern: /auth/connect/keycloak
             security: false
-        main:
-            lazy: true
-            provider: users_in_memory
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+        # Here is an example to protect your application (UI) using OAuth 2 Authorization Code Flow
+        secured_area:
+            pattern: ^/
+            provider: idci_keycloak_security_provider
+            entry_point: IDCI\Bundle\KeycloakSecurityBundle\Security\EntryPoint\AuthenticationEntryPoint
+            custom_authenticators:
+                - IDCI\Bundle\KeycloakSecurityBundle\Security\Authenticator\KeycloakAuthenticator
+            logout:
+                path: idci_keycloak_security_auth_logout
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
-when@test:
-    security:
-        password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+        # This following ROLES must be configured in your Keycloak client
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/analytics, roles: PUBLIC_ACCESS }
