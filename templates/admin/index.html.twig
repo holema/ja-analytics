@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+
+<!--Section: Sales Performance KPIs-->
+<section class="mb-4">
+    <div class="card">
+        <div class="card-header text-center py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Jitsi-Admin Analytics</strong>
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">IP</th>
+
+                        <th scope="col">Conferences</th>
+                        <th scope="col">Users</th>
+                        <th scope="col">Login Users</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for d in data %}
+                        <tr>
+
+                            <td>{{ d.ip }}</td>
+                            <td>{{ d.dataAsArray['rooms'] }}</td>
+                            <td>{{ d.dataAsArray['users'] }} </td>
+                            <td>{{ d.dataAsArray['kcUser'] }}</td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                    More
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section: Sales Performance KPIs-->
+
+
+{% endblock %}
