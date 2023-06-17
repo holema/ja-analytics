@@ -17,7 +17,7 @@
                     <tr>
 
                         <th scope="col">IP</th>
-
+                        <th scope="col">Date</th>
                         <th scope="col">Conferences</th>
                         <th scope="col">Users</th>
                         <th scope="col">Login Users</th>
@@ -29,6 +29,7 @@
                         <tr>
 
                             <td>{{ d.ip }}</td>
+                            <td>{{ d.createdAt|date('d.m.Y H:i') }}</td>
                             <td>{{ d.dataAsArray['rooms'] }}</td>
                             <td>{{ d.dataAsArray['users'] }} </td>
                             <td>{{ d.dataAsArray['kcUser'] }}</td>

@@ -18,10 +18,4 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/.gitignore
-/.idea/jitsi-admin-analytics.iml
-/.idea/modules.xml
-/.idea/php.xml
-/.idea/phpunit.xml
-/.idea/vcs.xml
+/.idea/*
