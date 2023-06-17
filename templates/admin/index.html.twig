@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-
+    {% macro showValue(value) %}
+        {% if value is iterable %}
+            <ul class="list-group">
+                {% for v in value %}
+                    <li class="list-group-item">
+                        {{ _self.showValue(v) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {{ value }}
+        {% endif %}
+    {% endmacro %}
 
     <!--Section: Sales Performance KPIs-->
     <section class="mb-4">
@@ -70,17 +82,7 @@
                                                                 {% for key,value in d.dataAsArray %}
                                                                     <li class="list-group-item">
                                                                         {{ key }}:
-                                                                        {% if value is iterable %}
-                                                                            <ul class="list-group">
-                                                                                {% for v in value %}
-                                                                                    <li class="list-group-item">
-                                                                                        {{ v }}
-                                                                                    </li>
-                                                                                {% endfor %}
-                                                                            </ul>
-                                                                        {% else %}
-                                                                            {{ value }}
-                                                                        {% endif %}
+                                                                        {{ _self.showValue(value) }}
                                                                     </li>
                                                                 {% endfor %}
                                                             </ul>
