@@ -2,55 +2,114 @@
 {% block content %}
 
 
-<!--Section: Sales Performance KPIs-->
-<section class="mb-4">
-    <div class="card">
-        <div class="card-header text-center py-3">
-            <h5 class="mb-0 text-center">
-                <strong>Jitsi-Admin Analytics</strong>
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
-                    <thead>
-                    <tr>
-
-                        <th scope="col">IP</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Url</th>
-                        <th scope="col">Conferences</th>
-                        <th scope="col">Users</th>
-                        <th scope="col">Login Users</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for d in data %}
+    <!--Section: Sales Performance KPIs-->
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <h5 class="mb-0 text-center">
+                    <strong>Jitsi-Admin Analytics</strong>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
                         <tr>
 
-                            <td>{{ d.ip }}</td>
-                            <td>{{ d.createdAt|date('d.m.Y H:i') }}</td>
-                            <td>{% if d.dataAsArray['urls'][0] is defined %}{{ d.dataAsArray['urls'][0] }}{% endif %}</td>
-                            <td>{{ d.dataAsArray['rooms'] }}</td>
-                            <td>{{ d.dataAsArray['users'] }} </td>
-                            <td>{{ d.dataAsArray['kcUser'] }}</td>
-                            <td>
-                                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                    More
-                                </button>
-                            </td>
+                            <th scope="col">IP</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Url</th>
+                            <th scope="col">Conferences</th>
+                            <th scope="col">Users</th>
+                            <th scope="col">Login Users</th>
+                            <th></th>
                         </tr>
-                    {% endfor %}
+                        </thead>
+                        <tbody>
+                        {% for d in data %}
+                            <tr>
+
+                                <td>{{ d.ip }}</td>
+                                <td>{{ d.createdAt|date('d.m.Y H:i') }}</td>
+                                <td>{% if d.dataAsArray['urls'][0] is defined %}{{ d.dataAsArray['urls'][0] }}{% endif %}</td>
+                                <td>{{ d.dataAsArray['rooms'] }}</td>
+                                <td>{{ d.dataAsArray['users'] }} </td>
+                                <td>{{ d.dataAsArray['kcUser'] }}</td>
+                                <td>
 
 
-                    </tbody>
-                </table>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-link btn-sm btn-rounded"
+                                            data-mdb-toggle="modal" data-mdb-target="#modeModal_{{ d.id }}">
+                                        More
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal top fade" id="modeModal_{{ d.id }}" tabindex="-1"
+                                         aria-labelledby="modeModal_{{ d.id }}" aria-hidden="true"
+                                         data-mdb-backdrop="false" data-mdb-keyboard="true">
+                                        <div class="modal-dialog  ">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">More (#{{ d.id }}
+                                                        )</h5>
+                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">
+                                                            IP: {{ d.ip }}
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            Created At: {{ d.createdAt|date('d.m.Y H:i') }}
+                                                        </li>
+                                                        <li class="list-group-item" style="white-space: normal">
+                                                            Data:
+                                                            <ul class="list-group">
+                                                                {% for key,value in d.dataAsArray %}
+                                                                    <li class="list-group-item">
+                                                                        {{ key }}:
+                                                                        {% if value is iterable %}
+                                                                            <ul class="list-group">
+                                                                                {% for v in value %}
+                                                                                    <li class="list-group-item">
+                                                                                        {{ v }}
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        {% else %}
+                                                                            {{ value }}
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-mdb-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<!--Section: Sales Performance KPIs-->
+    </section>
+    <!--Section: Sales Performance KPIs-->
 
 
 {% endblock %}
