@@ -20,7 +20,7 @@ class AdminController extends AbstractController
     #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
-        $data = $this->analyticsDataRepository->findAll();
+        $data = $this->analyticsDataRepository->findBy([],['createdAt'=>'DESC']);
         return $this->render('admin/index.html.twig', [
             'data'=>$data
         ]);
