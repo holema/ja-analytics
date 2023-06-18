@@ -19,7 +19,7 @@
         <div class="card">
             <div class="card-header text-center py-3">
                 <h5 class="mb-0 text-center">
-                    <strong>Jitsi-Admin Analytics</strong>
+                    <strong>{{ orgData.ip }}</strong>
                 </h5>
             </div>
             <div class="card-body">
@@ -113,6 +113,18 @@
             </div>
         </div>
     </section>
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header py-3">
+                <h5 class="mb-0 text-center"><strong>History</strong></h5>
+            </div>
+            <div class="card-body">
+                <canvas class="my-4 w-100" id="chart" height="380"></canvas>
+            </div>
+        </div>
+    </section>
+
+
     <!--Section: Sales Performance KPIs-->
 
 
@@ -122,5 +134,74 @@
     $(document).ready( function () {
         $('#datatable').DataTable();
     } );
+
+    var ctx = document.getElementById("chart");
+
+    var myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [
+                {% for d in data %}
+                "{{ d.createdAt|date('d.m.Y') }}",
+                {% endfor %}
+            ],
+            datasets: [
+                {
+                    label:'Conferences',
+                    data: [
+                        {% for d in data %}
+                        {{ d.dataAsArray['rooms']}},
+                        {% endfor %}
+                       ],
+                    lineTension: 0,
+                    backgroundColor: "transparent",
+                    borderColor: "#007bff",
+                    borderWidth: 4,
+                    pointBackgroundColor: "#007bff",
+                },
+                {
+                    label:'Users',
+                    data: [
+                        {% for d in data %}
+                        {{ d.dataAsArray['users']}},
+                        {% endfor %}
+                    ],
+                    lineTension: 0,
+                    backgroundColor: "transparent",
+                    borderColor: "red",
+                    borderWidth: 4,
+                    pointBackgroundColor: "red",
+                },
+                {
+                    label:'Login Users',
+                    data: [
+                        {% for d in data %}
+                        {{ d.dataAsArray['kcUser']}},
+                        {% endfor %}
+                    ],
+                    lineTension: 0,
+                    backgroundColor: "transparent",
+                    borderColor: "green",
+                    borderWidth: 4,
+                    pointBackgroundColor: "green",
+                },
+            ],
+        },
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    },
+                ],
+            },
+            legend: {
+                display: true,
+            },
+        },
+    });
+
 </script>
 {% endblock %}
