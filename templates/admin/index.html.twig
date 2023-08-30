@@ -42,7 +42,7 @@
                             <tr>
 
                                 <td>{{ d.ip }}</td>
-                                <td>{{ d.createdAt|date('d.m.Y H:i') }}</td>
+                                <td data-order="{{ d.createdAt|date('U') }}">{{ d.createdAt|date('d.m.Y H:i') }}</td>
                                 <td>{% if d.dataAsArray['urls'][0] is defined %}{{ d.dataAsArray['urls'][0] }}{% endif %}</td>
                                 <td>{{ d.dataAsArray['rooms'] }}</td>
                                 <td>{{ d.dataAsArray['users'] }} </td>
